@@ -120,7 +120,7 @@ function render() {
     btn.addEventListener("click", () => onChoose(btn, opt, correctAnswer));
     elChoices.appendChild(btn);
   });
-  
+
   if (micBtn) {
   micBtn.onclick = () => startListening(correctAnswer);
 }
@@ -235,19 +235,31 @@ function normalize(text) {
   return text
     .toLowerCase()
     .replace(/\s+/g, "")
-    .replace(/[ー〜～]/g, "");
+    .replace(/[\/・、。.,!?]/g, "")
+    .replace(/ครับ|ค่ะ|นะ|นะครับ|ค่ะครับ|です|だ/g, "");
 }
 
 function checkSpokenAnswer(spoken, correct) {
-  const s = normalize(spoken);
-  const c = normalize(correct);
+  const spokenNorm = normalize(spoken);
+  const acceptable = getAcceptableAnswers(correct);
 
-  // สร้างปุ่มหลอก เพื่อ reuse onChoose
+  const isCorrect = acceptable.some(ans => spokenNorm.includes(ans));
+
+  // สร้างปุ่มหลอกเพื่อ reuse onChoose
   const fakeBtn = document.createElement("button");
 
-  onChoose(fakeBtn, s === c ? correct : spoken, correct);
+  onChoose(
+    fakeBtn,
+    isCorrect ? correct : spoken,
+    correct
+  );
 }
-
+function getAcceptableAnswers(correct) {
+  return correct
+    .split("/")        // แยก "ครู / อาจารย์"
+    .map(x => normalize(x))
+    .filter(Boolean);
+}
 
 
 loadVocab();
