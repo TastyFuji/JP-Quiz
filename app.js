@@ -327,12 +327,10 @@ function startListening(correctAnswer) {
 
     checkSpokenAnswer(spoken, correctAnswer);
   };
-
   recognition.onerror = () => {
     micBtn.classList.remove("listening");
     micBtn.textContent = "🎤 พูดคำตอบ";
   };
-
   recognition.onend = () => {
     micBtn.classList.remove("listening");
     micBtn.textContent = "🎤 พูดคำตอบ";
