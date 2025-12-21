@@ -14,6 +14,19 @@ const resetBtn = document.getElementById("resetBtn");
 
 const AUTO_NEXT_DELAY = 800;
 const qa = document.getElementById("qa");
+const micBtn = document.getElementById("micBtn");
+
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+let recognition = null;
+
+if (SpeechRecognition) {
+  recognition = new SpeechRecognition();
+  recognition.lang = "ja-JP"; // ภาษาญี่ปุ่น
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+}
 
 // ===== State =====
 let vocab = [];
@@ -107,6 +120,10 @@ function render() {
     btn.addEventListener("click", () => onChoose(btn, opt, correctAnswer));
     elChoices.appendChild(btn);
   });
+  
+  if (micBtn) {
+  micBtn.onclick = () => startListening(correctAnswer);
+}
 }
 
 function onChoose(btn, chosen, correct) {
@@ -181,5 +198,56 @@ async function loadVocab() {
     elChoices.innerHTML = "";
   }
 }
+
+// ======= Mic =======
+function startListening(correctAnswer) {
+  if (!recognition) {
+    alert("เบราว์เซอร์ไม่รองรับ Speech Recognition");
+    return;
+  }
+
+  micBtn.classList.add("listening");
+  micBtn.textContent = "🎤 กำลังฟัง…";
+
+  recognition.start();
+
+  recognition.onresult = (event) => {
+    const spoken = event.results[0][0].transcript.trim();
+    micBtn.classList.remove("listening");
+    micBtn.textContent = "🎤 พูดคำตอบ";
+
+    checkSpokenAnswer(spoken, correctAnswer);
+  };
+
+  recognition.onerror = () => {
+    micBtn.classList.remove("listening");
+    micBtn.textContent = "🎤 พูดคำตอบ";
+  };
+
+  recognition.onend = () => {
+    micBtn.classList.remove("listening");
+    micBtn.textContent = "🎤 พูดคำตอบ";
+  };
+}
+
+//========= Check Answer With mic
+function normalize(text) {
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .replace(/[ー〜～]/g, "");
+}
+
+function checkSpokenAnswer(spoken, correct) {
+  const s = normalize(spoken);
+  const c = normalize(correct);
+
+  // สร้างปุ่มหลอก เพื่อ reuse onChoose
+  const fakeBtn = document.createElement("button");
+
+  onChoose(fakeBtn, s === c ? correct : spoken, correct);
+}
+
+
 
 loadVocab();
