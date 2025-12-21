@@ -215,3 +215,13 @@ code {
   70% { box-shadow: 0 0 0 10px rgba(239,68,68,0); }
   100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
 }
+
+#speakBtn {
+  background: #ecfeff;
+  border-color: #06b6d4;
+  color: #0e7490;
+  font-weight: 600;
+}
+#speakBtn:hover {
+  background: #cffafe;
+}

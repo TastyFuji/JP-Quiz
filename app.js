@@ -15,6 +15,7 @@ const resetBtn = document.getElementById("resetBtn");
 const AUTO_NEXT_DELAY = 800;
 const qa = document.getElementById("qa");
 const micBtn = document.getElementById("micBtn");
+const speakBtn = document.getElementById("speakBtn");
 
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -36,6 +37,81 @@ let score = 0;
 let answered = false;
 let mode = "JP_TH"; // "JP_TH" or "TH_JP"
 
+// ===== TTS (Japanese) =====
+let ttsEnabled = true;
+
+// เลือกเสียงญี่ปุ่น (พยายามเลือกเสียงที่เสถียรกว่า Online/Natural ก่อน)
+function pickJaVoice() {
+  const voices = speechSynthesis.getVoices() || [];
+  const jaVoices = voices.filter(v => (v.lang || "").toLowerCase().startsWith("ja"));
+  if (jaVoices.length === 0) return null;
+
+  // Prefer non-online voices if possible
+  const nonOnline = jaVoices.find(v => !/online|natural/i.test(v.name || ""));
+  return nonOnline || jaVoices[0];
+}
+
+let ttsBusy = false;
+let ttsQueue = null;
+let ttsRetry = 0;
+
+function speakJapanese(text) {
+  if (!ttsEnabled) return;
+  if (!("speechSynthesis" in window)) return;
+  if (!text) return;
+
+  // ถ้ากำลังพูดอยู่: เก็บไว้เป็นคิว (อันล่าสุด) แล้วรอให้จบ
+  if (ttsBusy) {
+    ttsQueue = text;
+    return;
+  }
+
+  const synth = speechSynthesis;
+  synth.resume(); // กันค้าง paused ใน Edge
+
+  const voice = pickJaVoice();
+
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ja-JP";
+  if (voice) u.voice = voice;
+  u.rate = 0.9;
+  u.pitch = 1;
+  u.volume = 1;
+
+  ttsBusy = true;
+
+  u.onend = () => {
+    ttsBusy = false;
+    ttsRetry = 0;
+    if (ttsQueue) {
+      const next = ttsQueue;
+      ttsQueue = null;
+      setTimeout(() => speakJapanese(next), 80);
+    }
+  };
+
+  u.onerror = (e) => {
+    // Edge มักขึ้น error = 'interrupted' ถ้า cancel/speak ชนกัน
+    // เราจะลองพูดใหม่ 1 ครั้งแบบหน่วงเวลา และหลีกเลี่ยงการยิงถี่
+    ttsBusy = false;
+
+    if (e && e.error === "interrupted" && ttsRetry < 1) {
+      ttsRetry++;
+      setTimeout(() => speakJapanese(text), 250);
+      return;
+    }
+    ttsRetry = 0;
+  };
+
+  // ❗ ไม่ใช้ synth.cancel() ทุกครั้ง (ทำให้ interrupted บ่อยใน Edge)
+  setTimeout(() => synth.speak(u), 60);
+}
+
+// ให้ voices โหลดเสร็จไวขึ้น (บางเครื่องต้องมี onvoiceschanged ถึงจะเติม voices)
+if ("speechSynthesis" in window) {
+  speechSynthesis.onvoiceschanged = () => {};
+}
+
 
 // ===== Utils =====
 function shuffle(arr) {
@@ -49,10 +125,20 @@ function shuffle(arr) {
 
 function normalizeVocab(list) {
   return (list || [])
-    .filter(x => x && typeof x.jp === "string" && typeof x.th === "string")
-    .map(x => ({ jp: x.jp.trim(), th: x.th.trim() }))
-    .filter(x => x.jp && x.th);
+    .filter(
+      (x) =>
+        x &&
+        typeof x.jp === "string" &&
+        typeof x.th === "string"
+    )
+    .map((x) => ({
+      jp: x.jp.trim(),
+      th: x.th.trim(),
+      kana: typeof x.kana === "string" ? x.kana.trim() : "" // ✅ เก็บ kana
+    }))
+    .filter((x) => x.jp && x.th);
 }
+
 
 function getPrompt(item) {
   return mode === "JP_TH" ? item.jp : item.th;
@@ -63,7 +149,7 @@ function getAnswerText(item) {
 }
 
 function buildChoices(correctItem) {
-  const pool = vocab.filter(v => v !== correctItem);
+  const pool = vocab.filter((v) => v !== correctItem);
   const wrong = shuffle(pool).slice(0, 3);
   const options = shuffle([correctItem, ...wrong]).map(getAnswerText);
   const correctAnswer = getAnswerText(correctItem);
@@ -82,7 +168,7 @@ function playQAAnimation() {
 function render() {
   elTotal.textContent = quiz.length;
   elScore.textContent = score;
-  elModeLabel.textContent = (mode === "JP_TH") ? "JP → TH" : "TH → JP";
+  elModeLabel.textContent = mode === "JP_TH" ? "JP → TH" : "TH → JP";
 
   if (quiz.length === 0) {
     elIdx.textContent = "0";
@@ -103,8 +189,15 @@ function render() {
   elIdx.textContent = current + 1;
 
   const item = quiz[current];
-  elQuestion.textContent = getPrompt(item);
+  const promptText = getPrompt(item);
+
+  elQuestion.textContent = promptText;
   elHint.textContent = "เลือกคำตอบที่ถูกต้อง (เฉลยหลังคลิก)";
+
+  // ✅ อ่านเสียงเมื่ออยู่โหมด JP -> TH
+  if (mode === "JP_TH") {
+    speakJapanese(item.kana || item.jp);
+  }
 
   playQAAnimation();
 
@@ -113,7 +206,7 @@ function render() {
   const { options, correctAnswer } = buildChoices(item);
   answered = false;
 
-  options.forEach(opt => {
+  options.forEach((opt) => {
     const btn = document.createElement("button");
     btn.className = "choice";
     btn.textContent = opt;
@@ -122,8 +215,24 @@ function render() {
   });
 
   if (micBtn) {
-  micBtn.onclick = () => startListening(correctAnswer);
-}
+    micBtn.onclick = () => startListening(correctAnswer);
+  }
+
+  if (speakBtn) {
+    speakBtn.disabled = mode !== "JP_TH";
+
+    speakBtn.onclick = () => {
+      const currentItem = quiz[current]; // 👈 ดึงใหม่ตรงนี้
+
+      if (!currentItem || !currentItem.kana) {
+        alert("ไม่พบ kana สำหรับข้อนี้ (เช็กว่า vocab.json มีฟิลด์ kana)");
+        return;
+      }
+
+      console.log("🔊 Speak:", currentItem.kana);
+      speakJapanese(currentItem.kana);
+    };
+  }
 }
 
 function onChoose(btn, chosen, correct) {
@@ -131,10 +240,10 @@ function onChoose(btn, chosen, correct) {
   answered = true;
 
   const buttons = [...document.querySelectorAll(".choice")];
-  buttons.forEach(b => b.disabled = true);
+  buttons.forEach((b) => (b.disabled = true));
 
   // ไฮไลต์เฉลย
-  buttons.forEach(b => {
+  buttons.forEach((b) => {
     if (b.textContent === correct) b.classList.add("ok");
   });
 
@@ -174,7 +283,7 @@ shuffleBtn.addEventListener("click", () => restart({ reshuffle: true }));
 resetBtn.addEventListener("click", () => restart({ reshuffle: false }));
 
 modeBtn.addEventListener("click", () => {
-  mode = (mode === "JP_TH") ? "TH_JP" : "JP_TH";
+  mode = mode === "JP_TH" ? "TH_JP" : "JP_TH";
   restart({ reshuffle: true });
 });
 
@@ -243,23 +352,28 @@ function checkSpokenAnswer(spoken, correct) {
   const spokenNorm = normalize(spoken);
   const acceptable = getAcceptableAnswers(correct);
 
-  const isCorrect = acceptable.some(ans => spokenNorm.includes(ans));
+  const isCorrect = acceptable.some((ans) => spokenNorm.includes(ans));
 
   // สร้างปุ่มหลอกเพื่อ reuse onChoose
   const fakeBtn = document.createElement("button");
 
-  onChoose(
-    fakeBtn,
-    isCorrect ? correct : spoken,
-    correct
-  );
+  onChoose(fakeBtn, isCorrect ? correct : spoken, correct);
 }
 function getAcceptableAnswers(correct) {
   return correct
-    .split("/")        // แยก "ครู / อาจารย์"
-    .map(x => normalize(x))
+    .split("/") // แยก "ครู / อาจารย์"
+    .map((x) => normalize(x))
     .filter(Boolean);
 }
 
+document.addEventListener(
+  "click",
+  () => {
+    const u = new SpeechSynthesisUtterance(" ");
+    u.volume = 0;
+    speechSynthesis.speak(u);
+  },
+  { once: true }
+);
 
 loadVocab();
