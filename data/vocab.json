@@ -19,10 +19,9 @@
   {"jp":"nansai","th":"กี่ขวบ"},
   {"jp":"hai","th":"ใช่"},
   {"jp":"iie","th":"ไม่ใช่"},
-  {"jp":"shitsurei desu ga","th":"ขอโทษนะครับ/คะ"},
   {"jp":"o-name wa","th":"คุณชื่ออะไร"},
   {"jp":"hajimemashite","th":"ยินดีที่ได้รู้จัก"},
-
+  {"jp":"donata","th":"ท่านใด / ใคร (คำยกย่อง)"},
   {"jp":"watashi","th":"ฉัน"},
   {"jp":"watashi-tachi","th":"พวกเรา"},
   {"jp":"anata","th":"คุณ"},
@@ -62,6 +61,7 @@
   {"jp":"anō","th":"เอ่อ…"},
   {"jp":"dōmo arigatō gozaimasu","th":"ขอบคุณมาก"},
   {"jp":"dōmo sumimasen","th":"ขอโทษเป็นอย่างสูง"},
-  {"jp":"kore kara o-sewa ni narimasu","th":"ต่อจากนี้ขอฝากเนื้อฝากตัวด้วย"},
+  {"jp":"onegai shimasu","th":"ขอร้อง / กรุณา"},
+  {"jp":"Yoroshiku onegai itashimasu","th":"ฝากเนื้อฝากตัวด้วย"},
   {"jp":"dōzo","th":"เชิญ / กรุณา"}
 ]
