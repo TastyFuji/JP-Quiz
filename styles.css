@@ -99,6 +99,8 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
+  min-height: 180px;
+  position: relative;
 }
 @media (min-width: 720px) {
   .choices { grid-template-columns: 1fr 1fr; }
@@ -246,3 +248,83 @@ code {
 #speakBtn:hover {
   background: #cffafe;
 }
+
+/* ===== Hide Choices Toggle ===== */
+#hideChoicesBtn {
+  background: #f1f5f9;
+  border-color: var(--border);
+  color: var(--text);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+#hideChoicesBtn.active {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+#hideChoicesBtn:hover {
+  background: #fef9c3;
+  border-color: #eab308;
+}
+
+/* ===== Hidden Choices State ===== */
+.choices.hidden-choices {
+  position: relative;
+}
+
+.choices.hidden-choices .choice {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.95);
+  transition: all 0.25s ease;
+}
+
+.choices.hidden-choices::before {
+  content: "🤔 คิดก่อน แล้วแตะเพื่อดูช้อยส์";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  cursor: pointer;
+  animation: pulse-hint 2s infinite;
+  z-index: 10;
+}
+
+@keyframes pulse-hint {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.02);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.choices.hidden-choices .choice:nth-child(1) { transition-delay: 0ms; }
+.choices.hidden-choices .choice:nth-child(2) { transition-delay: 50ms; }
+.choices.hidden-choices .choice:nth-child(3) { transition-delay: 100ms; }
+.choices.hidden-choices .choice:nth-child(4) { transition-delay: 150ms; }
+
+/* Reveal animation */
+.choices:not(.hidden-choices) .choice {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+  transition: all 0.3s ease;
+}
+
+.choices:not(.hidden-choices) .choice:nth-child(1) { transition-delay: 0ms; }
+.choices:not(.hidden-choices) .choice:nth-child(2) { transition-delay: 80ms; }
+.choices:not(.hidden-choices) .choice:nth-child(3) { transition-delay: 160ms; }
+.choices:not(.hidden-choices) .choice:nth-child(4) { transition-delay: 240ms; }

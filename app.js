@@ -36,78 +36,73 @@ let current = 0;
 let score = 0;
 let answered = false;
 let mode = "JP_TH"; // "JP_TH" or "TH_JP"
+let hideChoicesMode = false; // โหมดซ่อนช้อยส์
+let choicesRevealed = false; // ช้อยส์ถูกเปิดแล้วหรือยัง
 
-// ===== TTS (Japanese) =====
+// ===== TTS (ResponsiveVoice) =====
 let ttsEnabled = true;
 
-// เลือกเสียงญี่ปุ่น (พยายามเลือกเสียงที่เสถียรกว่า Online/Natural ก่อน)
-function pickJaVoice() {
-  const voices = speechSynthesis.getVoices() || [];
-  const jaVoices = voices.filter(v => (v.lang || "").toLowerCase().startsWith("ja"));
-  if (jaVoices.length === 0) return null;
-
-  // Prefer non-online voices if possible
-  const nonOnline = jaVoices.find(v => !/online|natural/i.test(v.name || ""));
-  return nonOnline || jaVoices[0];
+// ตรวจสอบว่า ResponsiveVoice พร้อมใช้งานหรือยัง
+function isResponsiveVoiceReady() {
+  return typeof responsiveVoice !== "undefined" && responsiveVoice.voiceSupport();
 }
 
-let ttsBusy = false;
-let ttsQueue = null;
-let ttsRetry = 0;
-
+// อ่านภาษาญี่ปุ่น
 function speakJapanese(text) {
-  if (!ttsEnabled) return;
-  if (!("speechSynthesis" in window)) return;
-  if (!text) return;
+  if (!ttsEnabled || !text) return;
 
-  // ถ้ากำลังพูดอยู่: เก็บไว้เป็นคิว (อันล่าสุด) แล้วรอให้จบ
-  if (ttsBusy) {
-    ttsQueue = text;
-    return;
+  if (isResponsiveVoiceReady()) {
+    // หยุดเสียงเดิมก่อน
+    responsiveVoice.cancel();
+    responsiveVoice.speak(text, "Japanese Female", {
+      pitch: 1,
+      rate: 0.9,
+      volume: 1
+    });
+  } else {
+    // Fallback to Web Speech API
+    fallbackSpeak(text, "ja-JP");
   }
+}
 
+// อ่านภาษาไทย (ปิดไว้ชั่วคราว)
+function speakThai(text) {
+  // ปิดเสียงไทยไว้ก่อน
+  return;
+  
+  if (!ttsEnabled || !text) return;
+
+  if (isResponsiveVoiceReady()) {
+    responsiveVoice.cancel();
+    responsiveVoice.speak(text, "Thai Female", {
+      pitch: 1,
+      rate: 0.9,
+      volume: 1
+    });
+  } else {
+    // Fallback to Web Speech API
+    fallbackSpeak(text, "th-TH");
+  }
+}
+
+// Fallback สำหรับเบราว์เซอร์ที่ ResponsiveVoice ไม่ทำงาน
+function fallbackSpeak(text, lang) {
+  if (!("speechSynthesis" in window)) return;
+  
   const synth = speechSynthesis;
-  synth.resume(); // กันค้าง paused ใน Edge
-
-  const voice = pickJaVoice();
+  synth.cancel();
+  synth.resume();
 
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = "ja-JP";
-  if (voice) u.voice = voice;
+  u.lang = lang;
   u.rate = 0.9;
   u.pitch = 1;
   u.volume = 1;
 
-  ttsBusy = true;
-
-  u.onend = () => {
-    ttsBusy = false;
-    ttsRetry = 0;
-    if (ttsQueue) {
-      const next = ttsQueue;
-      ttsQueue = null;
-      setTimeout(() => speakJapanese(next), 80);
-    }
-  };
-
-  u.onerror = (e) => {
-    // Edge มักขึ้น error = 'interrupted' ถ้า cancel/speak ชนกัน
-    // เราจะลองพูดใหม่ 1 ครั้งแบบหน่วงเวลา และหลีกเลี่ยงการยิงถี่
-    ttsBusy = false;
-
-    if (e && e.error === "interrupted" && ttsRetry < 1) {
-      ttsRetry++;
-      setTimeout(() => speakJapanese(text), 250);
-      return;
-    }
-    ttsRetry = 0;
-  };
-
-  // ❗ ไม่ใช้ synth.cancel() ทุกครั้ง (ทำให้ interrupted บ่อยใน Edge)
   setTimeout(() => synth.speak(u), 60);
 }
 
-// ให้ voices โหลดเสร็จไวขึ้น (บางเครื่องต้องมี onvoiceschanged ถึงจะเติม voices)
+// ให้ voices โหลดเสร็จไวขึ้น
 if ("speechSynthesis" in window) {
   speechSynthesis.onvoiceschanged = () => {};
 }
@@ -192,11 +187,14 @@ function render() {
   const promptText = getPrompt(item);
 
   elQuestion.textContent = promptText;
-  elHint.textContent = "เลือกคำตอบที่ถูกต้อง (เฉลยหลังคลิก)";
-
-  // ✅ อ่านเสียงเมื่ออยู่โหมด JP -> TH
+  
+  // ✅ อ่านเสียงตามโหมด
   if (mode === "JP_TH") {
     speakJapanese(item.kana || item.jp);
+    elHint.textContent = "เลือกคำตอบที่ถูกต้อง (เฉลยหลังคลิก)";
+  } else {
+    speakThai(item.th);
+    elHint.textContent = hideChoicesMode ? "แตะหน้าจอเพื่อดูช้อยส์" : "เลือกคำตอบที่ถูกต้อง";
   }
 
   playQAAnimation();
@@ -205,6 +203,7 @@ function render() {
 
   const { options, correctAnswer } = buildChoices(item);
   answered = false;
+  choicesRevealed = !hideChoicesMode; // ถ้าเปิดโหมดซ่อน จะยังไม่ reveal
 
   options.forEach((opt) => {
     const btn = document.createElement("button");
@@ -214,23 +213,30 @@ function render() {
     elChoices.appendChild(btn);
   });
 
+  // ซ่อนช้อยส์ถ้าเปิดโหมด hideChoicesMode
+  if (hideChoicesMode) {
+    elChoices.classList.add("hidden-choices");
+  } else {
+    elChoices.classList.remove("hidden-choices");
+  }
+
   if (micBtn) {
     micBtn.onclick = () => startListening(correctAnswer);
   }
 
   if (speakBtn) {
-    speakBtn.disabled = mode !== "JP_TH";
-
+    speakBtn.disabled = false; // เปิดใช้งานได้ทั้งสองโหมด
     speakBtn.onclick = () => {
-      const currentItem = quiz[current]; // 👈 ดึงใหม่ตรงนี้
+      const currentItem = quiz[current];
+      if (!currentItem) return;
 
-      if (!currentItem || !currentItem.kana) {
-        alert("ไม่พบ kana สำหรับข้อนี้ (เช็กว่า vocab.json มีฟิลด์ kana)");
-        return;
+      if (mode === "JP_TH") {
+        console.log("🔊 Speak JP:", currentItem.kana || currentItem.jp);
+        speakJapanese(currentItem.kana || currentItem.jp);
+      } else {
+        console.log("🔊 Speak TH:", currentItem.th);
+        speakThai(currentItem.th);
       }
-
-      console.log("🔊 Speak:", currentItem.kana);
-      speakJapanese(currentItem.kana);
     };
   }
 }
@@ -286,6 +292,43 @@ modeBtn.addEventListener("click", () => {
   mode = mode === "JP_TH" ? "TH_JP" : "JP_TH";
   restart({ reshuffle: true });
 });
+
+// ===== Hide Choices Toggle =====
+const hideChoicesBtn = document.getElementById("hideChoicesBtn");
+if (hideChoicesBtn) {
+  hideChoicesBtn.addEventListener("click", () => {
+    hideChoicesMode = !hideChoicesMode;
+    hideChoicesBtn.classList.toggle("active", hideChoicesMode);
+    hideChoicesBtn.textContent = hideChoicesMode ? "👁️ ซ่อนช้อยส์: เปิด" : "👁️‍🗨️ ซ่อนช้อยส์: ปิด";
+    
+    // อัพเดท hint ถ้าอยู่ในโหมดซ่อน
+    if (hideChoicesMode && !answered && !choicesRevealed) {
+      elHint.textContent = "แตะหน้าจอเพื่อดูช้อยส์";
+      elChoices.classList.add("hidden-choices");
+    } else {
+      elChoices.classList.remove("hidden-choices");
+      elHint.textContent = "เลือกคำตอบที่ถูกต้อง";
+    }
+  });
+}
+
+// ===== Reveal Choices on Tap =====
+function revealChoices() {
+  if (hideChoicesMode && !choicesRevealed && !answered) {
+    choicesRevealed = true;
+    elChoices.classList.remove("hidden-choices");
+    elHint.textContent = "เลือกคำตอบที่ถูกต้อง";
+  }
+}
+
+// คลิกที่ question area เพื่อเปิดช้อยส์
+if (qa) {
+  qa.addEventListener("click", (e) => {
+    // ไม่ทำงานถ้าคลิกที่ปุ่ม choice
+    if (e.target.classList.contains("choice")) return;
+    revealChoices();
+  });
+}
 
 // ===== Get vocab file path from script tag =====
 function getVocabPath() {
@@ -375,12 +418,16 @@ function getAcceptableAnswers(correct) {
     .filter(Boolean);
 }
 
+// เริ่มต้น TTS (บางเบราว์เซอร์ต้องมี user interaction ก่อน)
 document.addEventListener(
   "click",
   () => {
-    const u = new SpeechSynthesisUtterance(" ");
-    u.volume = 0;
-    speechSynthesis.speak(u);
+    // สำหรับ fallback Web Speech API
+    if ("speechSynthesis" in window) {
+      const u = new SpeechSynthesisUtterance(" ");
+      u.volume = 0;
+      speechSynthesis.speak(u);
+    }
   },
   { once: true }
 );
