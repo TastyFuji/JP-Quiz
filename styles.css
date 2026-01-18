@@ -39,6 +39,27 @@ body {
 }
 
 /* ===== Header ===== */
+.header-row {
+  margin-bottom: 10px;
+}
+
+.back-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.back-btn:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+
 .top h1 {
   font-size: 22px;
   margin: 0 0 12px;

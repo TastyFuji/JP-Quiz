@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>คำศัพท์บทที่ 1 - 2 | Japanese Vocab Quiz</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <header class="top">
+          <div class="header-row">
+            <a href="index.html" class="back-btn">← กลับหน้าหลัก</a>
+          </div>
+          <h1>📖 คำศัพท์บทที่ 1 - 2</h1>
+          <div class="row">
+            <div class="pill">
+              ข้อ <span id="idx">1</span>/<span id="total">0</span>
+            </div>
+            <div class="pill">คะแนน: <span id="score">0</span></div>
+            <div class="pill">โหมด: <span id="modeLabel">JP → TH</span></div>
+          </div>
+        </header>
+
+        <main>
+          <div id="qa" class="qa">
+            <div class="question" id="question">กำลังโหลด…</div>
+            <div class="hint" id="hint">เลือกคำตอบที่ถูกต้อง</div>
+
+            <div class="choices" id="choices"></div>
+          </div>
+          <div class="controls">
+            <button class="btn" id="nextBtn">ข้อต่อไป</button>
+            <button class="btn" id="shuffleBtn">สลับข้อ</button>
+            <button class="btn" id="modeBtn">สลับโหมด (JP↔TH)</button>
+            <button class="btn" id="resetBtn">เริ่มใหม่</button>
+            <button class="btn" id="speakBtn">🔊 อ่าน</button>
+          </div>
+
+          <details class="panel">
+            <summary>ใครที่จะเอาไปทำต่อเพิ่มคำศัพท์ที่ (vocab.json)</summary>
+            <p class="sub">
+              ไฟล์คำศัพท์อยู่ที่
+              <code>data/vocab.json</code> (แก้ไขแล้วรีเฟรชหน้าเว็บ)
+            </p>
+          </details>
+        </main>
+
+        <footer class="sub">
+          Code by TastyFuji
+        </footer>
+      </div>
+    </div>
+
+    <script src="./app.js" data-vocab="./data/vocab12.json"></script>
+  </body>
+</html>

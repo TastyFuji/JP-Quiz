@@ -287,11 +287,22 @@ modeBtn.addEventListener("click", () => {
   restart({ reshuffle: true });
 });
 
+// ===== Get vocab file path from script tag =====
+function getVocabPath() {
+  const scripts = document.getElementsByTagName("script");
+  for (let i = 0; i < scripts.length; i++) {
+    const vocabAttr = scripts[i].getAttribute("data-vocab");
+    if (vocabAttr) return vocabAttr;
+  }
+  return "./data/vocab.json"; // default fallback
+}
+
 // ===== Load vocab.json =====
 async function loadVocab() {
+  const vocabPath = getVocabPath();
   try {
-    const res = await fetch("./data/vocab.json", { cache: "no-store" });
-    if (!res.ok) throw new Error("โหลด vocab.json ไม่สำเร็จ");
+    const res = await fetch(vocabPath, { cache: "no-store" });
+    if (!res.ok) throw new Error(`โหลด ${vocabPath} ไม่สำเร็จ`);
     const data = await res.json();
 
     vocab = normalizeVocab(data);

@@ -3,54 +3,99 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Japanese Vocab Quiz (4 Choices)</title>
+    <title>Japanese Vocab Quiz - เลือกบทเรียน</title>
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      .chapter-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 30px;
+      }
+      @media (min-width: 600px) {
+        .chapter-grid { grid-template-columns: 1fr 1fr; }
+      }
+      .chapter-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        padding: 30px 24px;
+        text-decoration: none;
+        color: #fff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: block;
+        text-align: center;
+      }
+      .chapter-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+      }
+      .chapter-card.ch34 {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+      .chapter-card.ch34:hover {
+        box-shadow: 0 12px 30px rgba(245, 87, 108, 0.4);
+      }
+      .chapter-card h2 {
+        margin: 0 0 10px;
+        font-size: 26px;
+        font-weight: 700;
+      }
+      .chapter-card p {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 15px;
+      }
+      .chapter-card .emoji {
+        font-size: 48px;
+        margin-bottom: 16px;
+        display: block;
+      }
+      .main-title {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .main-title h1 {
+        font-size: 28px;
+        margin: 0;
+        background: linear-gradient(90deg, #667eea, #f5576c);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .main-subtitle {
+        text-align: center;
+        color: var(--muted);
+        font-size: 15px;
+        margin-bottom: 20px;
+      }
+    </style>
   </head>
   <body>
     <div class="wrap">
       <div class="card">
-        <header class="top">
-          <h1>Japanese Vocab Quiz (4 Choices)</h1>
-          <div class="row">
-            <div class="pill">
-              ข้อ <span id="idx">1</span>/<span id="total">0</span>
-            </div>
-            <div class="pill">คะแนน: <span id="score">0</span></div>
-            <div class="pill">โหมด: <span id="modeLabel">JP → TH</span></div>
-          </div>
-        </header>
+        <div class="main-title">
+          <h1>🇯🇵 Japanese Vocab Quiz</h1>
+        </div>
+        <p class="main-subtitle">เลือกบทเรียนที่ต้องการฝึก</p>
 
-        <main>
-          <div id="qa" class="qa">
-            <div class="question" id="question">กำลังโหลด…</div>
-            <div class="hint" id="hint">เลือกคำตอบที่ถูกต้อง</div>
+        <div class="chapter-grid">
+          <a href="quiz12.html" class="chapter-card ch12">
+            <span class="emoji">📖</span>
+            <h2>บทที่ 1 - 2</h2>
+            <p>คำศัพท์พื้นฐาน อาชีพ สิ่งของ</p>
+          </a>
 
-            <div class="choices" id="choices"></div>
-            <!-- <button class="btn mic" id="micBtn">🎤 Speak Answer</button> -->
-          </div>
-          <div class="controls">
-            <button class="btn" id="nextBtn">ข้อต่อไป</button>
-            <button class="btn" id="shuffleBtn">สลับข้อ</button>
-            <button class="btn" id="modeBtn">สลับโหมด (JP↔TH)</button>
-            <button class="btn" id="resetBtn">เริ่มใหม่</button>
-            <button class="btn" id="speakBtn">🔊 อ่าน</button>
-          </div>
+          <a href="quiz34.html" class="chapter-card ch34">
+            <span class="emoji">📚</span>
+            <h2>บทที่ 3 - 4</h2>
+            <p>คำศัพท์บทที่ 3 และ 4</p>
+          </a>
+        </div>
 
-          <details class="panel">
-            <summary>ใครที่จะเอาไปทำต่อเพิ่มคำศัพท์ที่ (vocab.json)</summary>
-            <p class="sub">
-              ไฟล์คำศัพท์อยู่ที่
-              <code>data/vocab.json</code> (แก้ไขแล้วรีเฟรชหน้าเว็บ)
-            </p>
-          </details>
-        </main>
-
-        <footer class="sub">
+        <footer class="sub" style="text-align: center; margin-top: 30px;">
           Code by TastyFuji
         </footer>
       </div>
     </div>
-
-    <script src="./app.js"></script>
   </body>
 </html>
