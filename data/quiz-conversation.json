@@ -1,0 +1,75 @@
+{
+  "chapter": 3,
+  "title": "บทที่ 3 - ถามเวลา สถานที่ ราคา",
+  "description": "ฝึกถาม-ตอบเรื่องเวลา สถานที่ เบอร์โทร และราคา",
+  "questions": [
+    {
+      "id": "time1",
+      "type": "time",
+      "question": "Ima nan ji desuka?",
+      "questionTh": "ตอนนี้กี่โมง?",
+      "answerPattern": "Ima {gozen/gogo} {ชั่วโมง}-ji {นาที} desu.",
+      "hint": "ดูเวลาที่แสดง แล้วตอบเป็นภาษาญี่ปุ่น",
+      "randomTime": true
+    },
+    {
+      "id": "time2",
+      "type": "time",
+      "question": "Ima nan ji desuka?",
+      "questionTh": "ตอนนี้กี่โมง?",
+      "answerPattern": "Ima {gozen/gogo} {ชั่วโมง}-ji {นาที} desu.",
+      "hint": "ดูเวลาที่แสดง แล้วตอบเป็นภาษาญี่ปุ่น",
+      "randomTime": true
+    },
+    {
+      "id": "time_range1",
+      "type": "time_range",
+      "question": "Shigoto wa nanji kara nanji made desuka?",
+      "questionTh": "ทำงานตั้งแต่กี่โมงถึงกี่โมง?",
+      "answerPattern": "{เวลาเริ่ม} kara {เวลาสิ้นสุด} made desu.",
+      "hint": "ดูเวลาเริ่ม-สิ้นสุดที่แสดง",
+      "randomTimeRange": true
+    },
+    {
+      "id": "phone1",
+      "type": "phone",
+      "question": "Anata no denwa bangō wa nan desuka?",
+      "questionTh": "เบอร์โทรศัพท์ของคุณคืออะไร?",
+      "answerPattern": "{เบอร์โทร} desu.",
+      "hint": "ดูเบอร์โทรที่แสดง แล้วอ่านเป็นภาษาญี่ปุ่น",
+      "randomPhone": true
+    },
+    {
+      "id": "price1",
+      "type": "price",
+      "question": "Kore wa ikura desuka?",
+      "questionTh": "อันนี้ราคาเท่าไหร่?",
+      "answerPattern": "{ราคา} en desu.",
+      "hint": "ดูราคาที่แสดง แล้วตอบเป็นภาษาญี่ปุ่น",
+      "randomPrice": true,
+      "priceRange": [100, 10000]
+    },
+    {
+      "id": "price2",
+      "type": "price",
+      "question": "Kore wa ikura desuka?",
+      "questionTh": "อันนี้ราคาเท่าไหร่?",
+      "answerPattern": "{ราคา} en desu.",
+      "hint": "ดูราคาที่แสดง แล้วตอบเป็นภาษาญี่ปุ่น",
+      "randomPrice": true,
+      "priceRange": [1000, 50000]
+    },
+    {
+      "id": "location1",
+      "type": "image_location",
+      "question": "Koko wa doko desuka?",
+      "questionTh": "ที่นี่คือที่ไหน?",
+      "answerPattern": "Koko wa {สถานที่} desu.",
+      "image": "images/meeting-room.jpg",
+      "correctAnswer": "kaigi-shitsu",
+      "choices": ["kaigi-shitsu", "uketsuke", "shokudō", "jimusho"],
+      "choicesTh": ["ห้องประชุม", "เคาน์เตอร์ต้อนรับ", "โรงอาหาร", "สำนักงาน"],
+      "hint": "ดูรูปภาพแล้วตอบว่าที่นี่คือที่ไหน"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "title": "สอบย่อยครั้งที่ 3 - บทที่ 5-6",
+  "description": "ฝึกตอบคำถามแบบสอบย่อย",
+  "questions": [
+    {
+      "id": "country1",
+      "type": "country",
+      "question": "Kore wa doko no tokei desuka?",
+      "questionTh": "นี่คือนาฬิกาของประเทศอะไร?",
+      "answerPattern": "Kore wa {ประเทศ} no tokei desu.",
+      "hint": "ตอบชื่อประเทศ + no + คำนาม",
+      "randomCountry": true
+    },
+    {
+      "id": "country2",
+      "type": "country",
+      "question": "Kore wa doko no kamera desuka?",
+      "questionTh": "นี่คือกล้องของประเทศอะไร?",
+      "answerPattern": "Kore wa {ประเทศ} no kamera desu.",
+      "hint": "ตอบชื่อประเทศ + no + คำนาม",
+      "randomCountry": true
+    },
+    {
+      "id": "color1",
+      "type": "color_size",
+      "question": "Kore wa nan desuka?",
+      "questionTh": "นี่คืออะไร?",
+      "answerPattern": "Kore wa {สี/ขนาด} {คำนาม} desu.",
+      "hint": "ตอบคุณศัพท์สี/ขนาด + คำนาม",
+      "randomColorSize": true
+    },
+    {
+      "id": "color2",
+      "type": "color_size",
+      "question": "Kore wa nan desuka?",
+      "questionTh": "นี่คืออะไร?",
+      "answerPattern": "Kore wa {สี/ขนาด} {คำนาม} desu.",
+      "hint": "ตอบคุณศัพท์สี/ขนาด + คำนาม",
+      "randomColorSize": true
+    },
+    {
+      "id": "counter1",
+      "type": "counter_tsu",
+      "question": "Irasshaimase! (พูดจำนวนผลไม้ที่เห็น)",
+      "questionTh": "ยินดีต้อนรับ! บอกจำนวนที่ต้องการ",
+      "answerPattern": "Sono {คำนาม} o {จำนวน}tsu kudasai.",
+      "hint": "ใช้ลักษณนาม -tsu",
+      "randomCounter": true,
+      "counterType": "tsu"
+    },
+    {
+      "id": "counter2",
+      "type": "counter_mai",
+      "question": "Irasshaimase! (พูดจำนวนเสื้อที่เห็น)",
+      "questionTh": "ยินดีต้อนรับ! บอกจำนวนที่ต้องการ",
+      "answerPattern": "Sono {คำนาม} o {จำนวน}-mai kudasai.",
+      "hint": "ใช้ลักษณนาม -mai",
+      "randomCounter": true,
+      "counterType": "mai"
+    },
+    {
+      "id": "counter3",
+      "type": "counter_hon",
+      "question": "Irasshaimase! (พูดจำนวนเครื่องดื่มที่เห็น)",
+      "questionTh": "ยินดีต้อนรับ! บอกจำนวนที่ต้องการ",
+      "answerPattern": "Sono {คำนาม} o {จำนวน}-hon kudasai.",
+      "hint": "ใช้ลักษณนาม -hon/-pon/-bon",
+      "randomCounter": true,
+      "counterType": "hon"
+    },
+    {
+      "id": "date1",
+      "type": "date",
+      "question": "Kore wa nan gatsu nan nichi desuka?",
+      "questionTh": "นี่คือวันที่เท่าไหร่ เดือนอะไร?",
+      "answerPattern": "{เดือน}-gatsu {วันที่} desu.",
+      "hint": "เรียงจาก เดือน > วันที่",
+      "randomDate": true
+    },
+    {
+      "id": "date2",
+      "type": "date",
+      "question": "Kore wa nan gatsu nan nichi desuka?",
+      "questionTh": "นี่คือวันที่เท่าไหร่ เดือนอะไร?",
+      "answerPattern": "{เดือน}-gatsu {วันที่} desu.",
+      "hint": "เรียงจาก เดือน > วันที่",
+      "randomDate": true
+    },
+    {
+      "id": "birthday",
+      "type": "birthday",
+      "question": "O-tanjōbi wa nan gatsu nan nichi desuka?",
+      "questionTh": "วันเกิดของคุณคือวันที่เท่าไหร่?",
+      "answerPattern": "{เดือน}-gatsu {วันที่} desu.",
+      "hint": "ตอบเดือนและวันที่เกิดของตัวเอง",
+      "randomDate": true
+    }
+  ]
+}

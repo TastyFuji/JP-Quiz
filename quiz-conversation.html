@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>บทสนทนา - Japanese Quiz</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles-conversation.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <header class="top">
+          <div class="header-row">
+            <a href="index.html" class="back-btn">← กลับหน้าหลัก</a>
+          </div>
+          <h1>💬 บทสนทนา - ถามเวลา สถานที่ ราคา</h1>
+          <div class="row">
+            <div class="pill">
+              ข้อ <span id="idx">1</span>/<span id="total">0</span>
+            </div>
+            <div class="pill">คะแนน: <span id="score">0</span></div>
+          </div>
+        </header>
+
+        <main>
+          <div id="qa" class="qa">
+            <!-- พื้นที่แสดงเวลา/เบอร์/ราคา/รูป -->
+            <div class="display-area" id="displayArea"></div>
+            
+            <!-- คำถาม -->
+            <div class="question" id="question">กำลังโหลด…</div>
+            <div class="question-th" id="questionTh"></div>
+            
+            <!-- รูปแบบคำตอบ -->
+            <div class="answer-pattern" id="answerPattern"></div>
+            
+            <!-- คำใบ้ -->
+            <div class="hint" id="hint">เลือกคำตอบที่ถูกต้อง</div>
+
+            <!-- ตัวเลือก -->
+            <div class="choices" id="choices"></div>
+          </div>
+          
+          <div class="controls">
+            <button class="btn" id="nextBtn">ข้อต่อไป</button>
+            <button class="btn" id="shuffleBtn">สลับข้อ</button>
+            <button class="btn" id="resetBtn">เริ่มใหม่</button>
+            <button class="btn" id="speakBtn">🔊 อ่าน</button>
+          </div>
+
+          <details class="panel">
+            <summary>วิธีเพิ่มคำถาม</summary>
+            <p class="sub">
+              แก้ไขไฟล์ <code>data/quiz-conversation.json</code><br>
+              รองรับคำถามประเภท: time, time_range, phone, price, image_location
+            </p>
+          </details>
+        </main>
+
+        <footer class="sub">
+          Code by TastyFuji
+        </footer>
+      </div>
+    </div>
+
+    <!-- Japanese Number Conversion -->
+    <script src="./js/japanese-numbers.js"></script>
+    <!-- ResponsiveVoice TTS -->
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=free"></script>
+    <!-- Quiz Logic -->
+    <script src="./js/conversation-quiz.js" data-quiz="./data/quiz-conversation.json"></script>
+  </body>
+</html>

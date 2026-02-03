@@ -1,0 +1,54 @@
+{
+  "chapter": 3,
+  "title": "บทที่ 3 - ถามเวลา สถานที่ ราคา",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "image_location",
+      "question": "Koko wa doko desuka?",
+      "questionTh": "ที่นี่คือที่ไหน?",
+      "image": "images/meeting-room.jpg",
+      "answerPattern": "Koko wa {place} desu.",
+      "correctAnswer": "kaigi-shitsu",
+      "choices": ["kaigi-shitsu", "uketsuke", "shokudō", "jimusho"],
+      "choicesTh": ["ห้องประชุม", "เคาน์เตอร์ต้อนรับ", "โรงอาหาร", "สำนักงาน"]
+    },
+    {
+      "id": "q2",
+      "type": "time",
+      "question": "Ima nan ji desuka?",
+      "questionTh": "ตอนนี้กี่โมง?",
+      "answerPattern": "Ima {time} desu.",
+      "randomTime": true,
+      "hint": "ดูเวลาที่แสดง แล้วตอบเป็นภาษาญี่ปุ่น"
+    },
+    {
+      "id": "q3",
+      "type": "phone",
+      "question": "Anata no denwa bangō wa nan desuka?",
+      "questionTh": "เบอร์โทรศัพท์ของคุณคืออะไร?",
+      "answerPattern": "{phone} desu.",
+      "randomPhone": true,
+      "hint": "ดูเบอร์โทรที่แสดง แล้วอ่านเป็นภาษาญี่ปุ่น"
+    },
+    {
+      "id": "q4",
+      "type": "price",
+      "question": "Kore wa ikura desuka?",
+      "questionTh": "อันนี้ราคาเท่าไหร่?",
+      "answerPattern": "{price} en desu.",
+      "randomPrice": true,
+      "priceRange": [100, 50000],
+      "hint": "ดูราคาที่แสดง แล้วตอบเป็นภาษาญี่ปุ่น"
+    },
+    {
+      "id": "q5",
+      "type": "time_range",
+      "question": "Shigoto wa nanji kara nanji made desuka?",
+      "questionTh": "ทำงานตั้งแต่กี่โมงถึงกี่โมง?",
+      "answerPattern": "{startTime} kara {endTime} made desu.",
+      "randomTimeRange": true,
+      "hint": "ดูเวลาเริ่ม-สิ้นสุดที่แสดง"
+    }
+  ]
+}

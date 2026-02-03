@@ -1,0 +1,141 @@
+/* ===== Conversation Quiz Styles ===== */
+
+/* Display Area - เวลา/เบอร์/ราคา/รูป */
+.display-area {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.display-time,
+.display-phone,
+.display-price {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  padding: 20px 40px;
+  border-radius: 16px;
+  font-size: 32px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.display-time .time-icon,
+.display-phone .phone-icon,
+.display-price .price-icon {
+  font-size: 40px;
+}
+
+.display-time .time-value,
+.display-phone .phone-value,
+.display-price .price-value {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+}
+
+/* Price specific */
+.display-price {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/* Phone specific */
+.display-phone {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* Image Display */
+.display-image {
+  max-width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.display-image img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  display: block;
+}
+
+/* Question Thai Translation */
+.question-th {
+  color: var(--muted);
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+/* Answer Pattern */
+.answer-pattern {
+  background: #f0f9ff;
+  border: 1px dashed #38bdf8;
+  border-radius: 12px;
+  padding: 12px 20px;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #0369a1;
+  font-family: monospace;
+}
+
+.answer-pattern:empty {
+  display: none;
+}
+
+/* Choice with JP + TH */
+.choice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.choice-jp {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.choice-th {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Larger choices for conversation */
+.choices .choice {
+  padding: 16px 20px;
+  min-height: 60px;
+}
+
+/* Animation for display area */
+.display-area > div {
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .display-time,
+  .display-phone,
+  .display-price {
+    padding: 16px 24px;
+    font-size: 24px;
+  }
+  
+  .display-time .time-icon,
+  .display-phone .phone-icon,
+  .display-price .price-icon {
+    font-size: 32px;
+  }
+}
