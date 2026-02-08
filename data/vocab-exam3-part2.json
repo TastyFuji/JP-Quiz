@@ -1,0 +1,40 @@
+[
+  { "jp": "Kore wa doko no tokei desuka? (สวิส)", "kana": "これはどこのとけいですか", "th": "Kore wa Suisu no tokei desu." },
+  { "jp": "Kore wa doko no kamera desuka? (เยอรมัน)", "kana": "これはどこのカメラですか", "th": "Kore wa Doitsu no kamera desu." },
+  { "jp": "Kore wa doko no kuruma desuka? (ญี่ปุ่น)", "kana": "これはどこのくるまですか", "th": "Kore wa Nihon no kuruma desu." },
+  { "jp": "Kore wa doko no kasa desuka? (อังกฤษ)", "kana": "これはどこのかさですか", "th": "Kore wa Igirisu no kasa desu." },
+
+  { "jp": "Kore wa nan desuka? (นาฬิกาเล็ก)", "kana": "これはなんですか", "th": "Kore wa chiisai tokei desu." },
+  { "jp": "Kore wa nan desuka? (ร่มใหญ่)", "kana": "これはなんですか", "th": "Kore wa ōkii kasa desu." },
+  { "jp": "Kore wa nan desuka? (ร่มดำ)", "kana": "これはなんですか", "th": "Kore wa kuroi kasa desu." },
+  { "jp": "Kore wa nan desuka? (ดินสอสีน้ำเงิน)", "kana": "これはなんですか", "th": "Kore wa aoi enpitsu desu." },
+  { "jp": "Kore wa nan desuka? (กระเป๋าสีแดง)", "kana": "これはなんですか", "th": "Kore wa akai kaban desu." },
+  { "jp": "Kore wa nan desuka? (เสื้อยืดสีขาว)", "kana": "これはなんですか", "th": "Kore wa shiroi T-shatsu desu." },
+
+  { "jp": "Irasshaimase! (แอปเปิ้ล 1)", "kana": "いらっしゃいませ", "th": "Sono ringo o hitotsu kudasai." },
+  { "jp": "Irasshaimase! (แอปเปิ้ล 2)", "kana": "いらっしゃいませ", "th": "Sono ringo o futatsu kudasai." },
+  { "jp": "Irasshaimase! (แอปเปิ้ล 3)", "kana": "いらっしゃいませ", "th": "Sono ringo o mittsu kudasai." },
+  { "jp": "Irasshaimase! (แอปเปิ้ล 6)", "kana": "いらっしゃいませ", "th": "Sono ringo o muttsu kudasai." },
+  { "jp": "Irasshaimase! (ส้ม 4)", "kana": "いらっしゃいませ", "th": "Sono migan o yottsu kudasai." },
+  { "jp": "Irasshaimase! (ส้ม 5)", "kana": "いらっしゃいませ", "th": "Sono migan o itsutsu kudasai." },
+
+  { "jp": "Irasshaimase! (เสื้อยืด 1)", "kana": "いらっしゃいませ", "th": "Sono T-shatsu o ichi-mai kudasai." },
+  { "jp": "Irasshaimase! (เสื้อยืด 2)", "kana": "いらっしゃいませ", "th": "Sono T-shatsu o ni-mai kudasai." },
+  { "jp": "Irasshaimase! (เสื้อยืด 3)", "kana": "いらっしゃいませ", "th": "Sono T-shatsu o san-mai kudasai." },
+
+  { "jp": "Irasshaimase! (เบียร์ 1)", "kana": "いらっしゃいませ", "th": "Sono bīru o ippon kudasai." },
+  { "jp": "Irasshaimase! (เบียร์ 2)", "kana": "いらっしゃいませ", "th": "Sono bīru o nihon kudasai." },
+  { "jp": "Irasshaimase! (เบียร์ 3)", "kana": "いらっしゃいませ", "th": "Sono bīru o sanbon kudasai." },
+  { "jp": "Irasshaimase! (เบียร์ 10)", "kana": "いらっしゃいませ", "th": "Sono bīru o juppon kudasai." },
+  { "jp": "Irasshaimase! (ร่ม 1)", "kana": "いらっしゃいませ", "th": "Sono kasa o ippon kudasai." },
+  { "jp": "Irasshaimase! (ดินสอ 2)", "kana": "いらっしゃいませ", "th": "Sono enpitsu o nihon kudasai." },
+
+  { "jp": "Nan gatsu nan nichi desuka? (1 ม.ค.)", "kana": "なんがつなんにちですか", "th": "Ichi-gatsu tsuitachi desu." },
+  { "jp": "Nan gatsu nan nichi desuka? (3 มี.ค.)", "kana": "なんがつなんにちですか", "th": "San-gatsu mikka desu." },
+  { "jp": "Nan gatsu nan nichi desuka? (4 เม.ย.)", "kana": "なんがつなんにちですか", "th": "Shi-gatsu yokka desu." },
+  { "jp": "Nan gatsu nan nichi desuka? (5 พ.ค.)", "kana": "なんがつなんにちですか", "th": "Go-gatsu itsuka desu." },
+  { "jp": "Nan gatsu nan nichi desuka? (1 ก.ย.)", "kana": "なんがつなんにちですか", "th": "Ku-gatsu tsuitachi desu." },
+  { "jp": "Nan gatsu nan nichi desuka? (20 เม.ย.)", "kana": "なんがつなんにちですか", "th": "Shi-gatsu hatsuka desu." },
+  { "jp": "Nan gatsu nan nichi desuka? (25 ธ.ค.)", "kana": "なんがつなんにちですか", "th": "Jūni-gatsu nijūgo-nichi desu." },
+  { "jp": "Nan gatsu nan nichi desuka? (14 ก.พ.)", "kana": "なんがつなんにちですか", "th": "Ni-gatsu jūyokka desu." }
+]

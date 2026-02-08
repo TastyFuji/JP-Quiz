@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>สอบย่อยครั้งที่ 3 | Japanese Vocab Quiz</title>
+    <title>สอบข้อ 2: ตอบคำถาม | Japanese Quiz</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -13,13 +13,13 @@
           <div class="header-row">
             <a href="index.html" class="back-btn">← กลับหน้าหลัก</a>
           </div>
-          <h1>✍️ สอบย่อยครั้งที่ 3 (บทที่ 5-6)</h1>
+          <h1>💬 สอบข้อ 2: ตอบคำถาม (10 คะแนน)</h1>
           <div class="row">
             <div class="pill">
               ข้อ <span id="idx">1</span>/<span id="total">0</span>
             </div>
             <div class="pill">คะแนน: <span id="score">0</span></div>
-            <div class="pill">โหมด: <span id="modeLabel">JP → TH</span></div>
+            <div class="pill">โหมด: คำถาม JP → ตอบ JP</div>
           </div>
         </header>
 
@@ -33,21 +33,23 @@
           <div class="controls">
             <button class="btn" id="nextBtn">ข้อต่อไป</button>
             <button class="btn" id="shuffleBtn">สลับข้อ</button>
-            <button class="btn" id="modeBtn">สลับโหมด (JP↔TH)</button>
             <button class="btn" id="resetBtn">เริ่มใหม่</button>
             <button class="btn" id="speakBtn">🔊 อ่าน</button>
             <button class="btn" id="hideChoicesBtn">👁️‍🗨️ ซ่อนช้อยส์: ปิด</button>
           </div>
 
           <details class="panel">
-            <summary>เนื้อหาการสอบ (15 คะแนน)</summary>
+            <summary>รูปแบบการสอบ</summary>
             <p class="sub">
-              <strong>1. คำศัพท์ (5 คำ = 5 คะแนน)</strong>: ไทย → ญี่ปุ่น<br>
-              <strong>2. ตอบคำถาม (10 ข้อ = 10 คะแนน)</strong>:<br>
-              - Kore wa doko no X desuka? (ประเทศ)<br>
-              - Kore wa nan desuka? (สี/ขนาด + คำนาม)<br>
-              - Irasshaimase! (จำนวน + ลักษณนาม)<br>
-              - Nan gatsu nan nichi desuka? (เดือน/วันที่)
+              <strong>ข้อ 2: ตอบคำถาม (10 ข้อ = 10 คะแนน)</strong><br>
+              อาจารย์ถามเป็นญี่ปุ่น → นักศึกษาตอบเป็นญี่ปุ่น<br><br>
+              รูปแบบคำถาม:<br>
+              1. Kore wa doko no X desuka? → ตอบประเทศ (2 ข้อ)<br>
+              2. Kore wa nan desuka? → ตอบสี/ขนาด + คำนาม (2 ข้อ)<br>
+              3. Irasshaimase! → Sono X o Y kudasai (2 ข้อ)<br>
+              4. Nan gatsu nan nichi desuka? → ตอบเดือน/วันที่ (2 ข้อ)<br>
+              5. O-tanjōbi wa...? → ตอบวันเกิด (1 ข้อ)<br>
+              6. Kyō wa...? → ตอบวันนี้ (1 ข้อ)
             </p>
           </details>
         </main>
@@ -59,6 +61,6 @@
     </div>
 
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=free"></script>
-    <script src="./app.js" data-vocab="./data/vocab-exam3.json"></script>
+    <script src="./app.js" data-vocab="./data/vocab-exam3-part2.json" data-mode="JP_TH"></script>
   </body>
 </html>

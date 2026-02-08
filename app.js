@@ -163,7 +163,9 @@ function playQAAnimation() {
 function render() {
   elTotal.textContent = quiz.length;
   elScore.textContent = score;
-  elModeLabel.textContent = mode === "JP_TH" ? "JP → TH" : "TH → JP";
+  if (elModeLabel) {
+    elModeLabel.textContent = mode === "JP_TH" ? "JP → TH" : "TH → JP";
+  }
 
   if (quiz.length === 0) {
     elIdx.textContent = "0";
@@ -272,7 +274,12 @@ function onChoose(btn, chosen, correct) {
 
 // ===== Controls =====
 function restart({ reshuffle = true } = {}) {
-  quiz = reshuffle ? shuffle(vocab) : vocab.slice();
+  let pool = reshuffle ? shuffle(vocab) : vocab.slice();
+  const limit = getQuestionLimit();
+  if (limit > 0 && pool.length > limit) {
+    pool = pool.slice(0, limit);
+  }
+  quiz = pool;
   current = 0;
   score = 0;
   answered = false;
@@ -288,10 +295,12 @@ nextBtn.addEventListener("click", () => {
 shuffleBtn.addEventListener("click", () => restart({ reshuffle: true }));
 resetBtn.addEventListener("click", () => restart({ reshuffle: false }));
 
-modeBtn.addEventListener("click", () => {
-  mode = mode === "JP_TH" ? "TH_JP" : "JP_TH";
-  restart({ reshuffle: true });
-});
+if (modeBtn) {
+  modeBtn.addEventListener("click", () => {
+    mode = mode === "JP_TH" ? "TH_JP" : "JP_TH";
+    restart({ reshuffle: true });
+  });
+}
 
 // ===== Hide Choices Toggle =====
 const hideChoicesBtn = document.getElementById("hideChoicesBtn");
@@ -340,8 +349,45 @@ function getVocabPath() {
   return "./data/vocab.json"; // default fallback
 }
 
+// ===== Get initial mode from script tag =====
+function getInitialMode() {
+  const scripts = document.getElementsByTagName("script");
+  for (let i = 0; i < scripts.length; i++) {
+    const modeAttr = scripts[i].getAttribute("data-mode");
+    if (modeAttr) return modeAttr;
+  }
+  return "JP_TH"; // default
+}
+
+// ===== Get question limit from script tag =====
+function getQuestionLimit() {
+  const scripts = document.getElementsByTagName("script");
+  for (let i = 0; i < scripts.length; i++) {
+    const limitAttr = scripts[i].getAttribute("data-limit");
+    if (limitAttr) return parseInt(limitAttr, 10);
+  }
+  return 0; // 0 = no limit (use all)
+}
+
+// ===== Check if mode switching is disabled =====
+function isModeLocked() {
+  const scripts = document.getElementsByTagName("script");
+  for (let i = 0; i < scripts.length; i++) {
+    if (scripts[i].hasAttribute("data-mode")) return true;
+  }
+  return false;
+}
+
 // ===== Load vocab.json =====
 async function loadVocab() {
+  // ตั้งค่า mode จาก data-mode attribute
+  mode = getInitialMode();
+  
+  // ซ่อนปุ่มสลับโหมดถ้า mode ถูกล็อค
+  if (isModeLocked() && modeBtn) {
+    modeBtn.style.display = "none";
+  }
+  
   const vocabPath = getVocabPath();
   try {
     const res = await fetch(vocabPath, { cache: "no-store" });
